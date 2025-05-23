@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style_login.css">
+  <title>Login do Cliente</title>
+</head>
+<body>
+
+  <div id="layout"></div><!-- conexao com o arquivo layout.html-->
+
+    <script>
+        fetch("layout_site.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("layout").innerHTML = data);
+    </script>
+
+  <h1>Login de Cliente</h1>
+  <form id="formLogin">
+    <label for="clienteEmail">E-mail:</label>
+    <input type="email" id="clienteEmail" required><br>
+
+    <label for="clienteSenha">Senha:</label>
+    <input type="password" id="clienteSenha" required><br><br>
+
+    <p class="cadastro-link">
+  Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se agora</a>.</p>
+<br>
+    <button type="submit">Entrar</button>
+  </form>
+<br>
+  <h2>Resultado:</h2>
+  <pre id="loginResult"></pre>
+
+  <script>
+    document.getElementById("formLogin").addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('clienteEmail').value;
+      const senha = document.getElementById('clienteSenha').value;
+
+      fetch('http://localhost:3000/api/login', { // Substitua pela URL real da sua API
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          senha: senha
+        })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Login inválido');
+        return res.json();
+      })
+      .then(data => {
+        document.getElementById('loginResult').textContent = JSON.stringify(data, null, 2);
+
+        // Suponha que a API retorne { token: '...' }
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          alert('Login realizado com sucesso!');
+        }
+      })
+      .catch(error => {
+        document.getElementById('loginResult').textContent = 'Erro: ' + error.message;
+      });
+    });
+  </script>
+   <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+  <div id="rodape"></div><!-- conexao com o arquivo layout.html-->
+
+  <script>
+  fetch("rodape.html")
+      .then(response => response.text())
+      .then(data => document.getElementById("rodape").innerHTML = data);
+  </script>
+</body>
+</html>
+  

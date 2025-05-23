@@ -1,0 +1,113 @@
+ <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style_admedicao.css">
+  <title>Cadastro de Cliente</title>
+</head>
+<body>
+
+  <div id="layout"></div><!-- conexao com o arquivo layout.html-->
+
+    <script>
+        fetch("layout_site.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("layout").innerHTML = data);
+    </script>
+
+  <h1>Cadastro de Cliente</h1>
+  <form id="formCliente">
+    <label for="clienteNome">Nome:</label>
+    <input type="text" id="clienteNome" required><br>
+
+    <label for="clienteCPF">CPF:</label>
+    <input type="text" id="clienteCPF" required><br>
+
+    <label for="clienteEmail">E-mail:</label>
+    <input type="email" id="clienteEmail" required><br>
+
+    <label for="clienteTelefone">Telefone:</label>
+    <input type="tel" id="clienteTelefone" required><br>
+
+    <label for="clienteEndereco">Endereço:</label>
+    <input type="text" id="clienteEndereco" required><br>
+
+    <label for="clienteCidade">Cidade:</label>
+    <input type="text" id="clienteCidade" required><br>
+
+    <label for="clienteCEP">CEP:</label>
+    <input type="text" id="clienteCEP" required><br>
+
+    <label for="clienteGenero">Sexo:</label>
+    <select id="clienteGenero" required>
+      <option value="">Selecione</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Feminino">Feminino</option>
+      <option value="Outro">Outro</option>
+    </select><br>
+
+    <label for="clienteSenha">Senha:</label>
+    <input type="password" id="clienteSenha" required><br><br>
+
+     <p class="cadastro-link">
+  Já possui uma conta? <a href="login.html">Entre agora</a>.</p>
+  <br>
+
+    <button type="submit">Cadastrar Cliente</button>
+  </form>
+  <br>
+
+  <h2>Resultado:</h2>
+  <pre id="clienteResult"></pre>
+
+  <script>
+    document.getElementById("formCliente").addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const cliente = {
+        nome: document.getElementById('clienteNome').value,
+        cpf: document.getElementById('clienteCPF').value,
+        email: document.getElementById('clienteEmail').value,
+        telefone: document.getElementById('clienteTelefone').value,
+        endereco:document.getElementById('clienteEndereco').value,
+        cidade: document.getElementById('clienteCidade').value,
+        cep: document.getElementById('clienteCEP').value,
+        sexo: document.getElementById('clienteSexo').value,
+        senha: document.getElementById('clienteSenha').value
+      };
+
+      // Aqui usamos um endpoint fake para teste
+      fetch('http://localhost:3000/api/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cliente)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('clienteResult').textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        document.getElementById('clienteResult').textContent = 'Erro: ' + error;
+      });
+    });
+  </script>
+  <br>
+  <br>
+  <br>
+
+  
+   <!-- ---------------------------------------------------------------------------------------------------------- -->  
+  
+   <div id="rodape"></div><!-- conexao com o arquivo layout.html-->
+
+   <script>
+   fetch("rodape.html")
+       .then(response => response.text())
+       .then(data => document.getElementById("rodape").innerHTML = data);
+   </script>
+</body>
+</html>
+ 

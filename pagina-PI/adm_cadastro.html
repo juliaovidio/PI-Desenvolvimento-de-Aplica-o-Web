@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/style_admcadastro.css">
+  <title>Cadastro de Produto</title>
+</head>
+<body>
+
+ <div id="layout"></div><!-- conexao com o arquivo layout.html-->
+
+    <script>
+        fetch("layout_adm.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("layout").innerHTML = data);
+    </script>
+
+
+  <h1>Cadastre um novo produto</h1>
+  <form id="formProduto">
+    <label for="produtoDescricao">Descrição:</label>
+    <input type="text" id="produtoDescricao" name="descricao" required><br><br>
+
+    <label for="produtoEstoque">Estoque:</label>
+    <input type="number" id="produtoEstoque" name="estoque" required><br><br>
+
+    <label for="produtoValor">Valor:</label>
+    <input type="number" id="produtoValor" name="valor" step="0.01" required><br><br>
+
+    <label for="produtoCategoria">Categoria:</label>
+    <input type="text" id="produtoCategoria" name="categoria" required><br><br>
+
+
+    <button type="submit">Cadastrar Produto</button>
+  </form>
+
+  <h2>Resultado:</h2>
+  <pre id="resultadoProduto"></pre>
+
+  <script>
+    document.getElementById("formProduto").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const dados = {
+        descricao: document.getElementById("produtoDescricao").value,
+        estoque: document.getElementById("produtoEstoque").value,
+        valor: document.getElementById("produtoValor").value,
+        categoria_idCategoria:document.getElementById("produtoCategoria").value
+        //por categoria aqui
+      };
+
+      // 👇 Log dos dados no console
+      console.log("JSON enviado:", JSON.stringify(dados, null, 2));
+
+      fetch("http://localhost:3030/produtos", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(dados)
+})
+
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("resultadoProduto").textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        document.getElementById("resultadoProduto").textContent = "Erro: " + error;
+      });
+    });
+  </script>
+  <br>
+  <br>
+  <br>
+  <br>
+  
+
+   <div id="rodape"></div><!-- conexao com o arquivo layout.html-->
+
+   <script>
+   fetch("rodape.html")
+       .then(response => response.text())
+       .then(data => document.getElementById("rodape").innerHTML = data);
+   </script>
+</body>
+</html>

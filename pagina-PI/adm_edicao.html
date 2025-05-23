@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/style_admedicao.css">
+  <title>Editar Produto</title>
+</head>
+<body>
+ <div id="layout"></div><!-- conexao com o arquivo layout.html-->
+
+    <script>
+        fetch("layout_adm.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("layout").innerHTML = data);
+    </script>
+
+  <h1>Editar Produto</h1>
+  <form id="formEditarProduto">
+    <label for="produtoId">ID do Produto:</label>
+    <input type="number" id="produtoId" name="id" required><br><br>
+
+    <label for="produtoNome">Nome:</label>
+    <input type="text" id="produtoNome" name="nome" required><br><br>
+
+    <label for="produtoDescricao">Descrição:</label>
+    <textarea id="produtoDescricao" name="descricao" required></textarea><br><br>
+
+    <label for="produtoValor">Valor:</label>
+    <input type="number" id="produtoValor" name="valor" step="0.01" required><br><br>
+
+    <button type="submit">Atualizar Produto</button>
+  </form>
+
+  <h2>Resultado:</h2>
+  <pre id="resultadoEdicao"></pre>
+
+  <script>
+    document.getElementById("formEditarProduto").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const id = document.getElementById("produtoId").value;
+      const dados = {
+        nome: document.getElementById("produtoNome").value,
+        descricao: document.getElementById("produtoDescricao").value,
+        valor: document.getElementById("produtoValor").value
+      };
+
+      fetch(`https://httpbin.org/put?id=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("resultadoEdicao").textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(error => {
+        document.getElementById("resultadoEdicao").textContent = "Erro: " + error;
+      });
+    });
+  </script>
+  <br>
+
+   <div id="rodape"></div><!-- conexao com o arquivo layout.html-->
+
+  <script>
+    
+   fetch("rodape.html")
+       .then(response => response.text())
+       .then(data => document.getElementById("rodape").innerHTML = data);
+   </script>
+</body>
+</html>
